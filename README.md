@@ -60,6 +60,11 @@ One way and two way
 ## Events
 
 - <button (click)="onClick()">Click</button> > add corresonding function in the .ts of the component. onClick() { console.log('clicked'); } > Emit this event and pass it to parent using @Output
+- <fa-icon [ngStyle]="{'color':'red'}" [icon]="faTimes" (click)="onClickDelete(task)">
+  and  
+  onClickDelete(task: Task) {
+  console.log(task);
+  }
 
 ## Data models in Angular Apps, class vs interface
 
@@ -67,13 +72,42 @@ Interfaces are great when you only need the type checking whereas classes are gr
 
 ## Create a service.ts and import it in a ts component
 
-ng generate service services/task
+- ng generate service services/task
 
 - What is @Injectable?
 
 - Import the service, add it as a constructor parameter, and maybe add it to ngOnInit
 
 ## Observables and async data
+
+- Service.ts:
+  import { Observable, of } from 'rxjs';
+  . .
+  getTasks(): Observable<Task[]> {
+  const tasks = of(TASKS);
+  return tasks;
+  }
+
+- And to use this elsewhere:
+  this.service.getTasks().subscribe((tasks) => this.tasks = tasks);
+
+## HttpClient
+
+- In build provided by Angular unlike React
+- Service.ts: import { HttpClient, HttpHeaders } from '@angular/common/http';
+- App.module.ts:
+  import { HttpClientModule } from '@angular/common/http';
+  ...
+  imports: [
+  BrowserModule,
+  . . .
+  HttpClientModule
+  ],
+- Pass as parameter to the service constructor: constructor(private http:HttpClient) { }
+- make a call:
+  getTasks(): Observable<Task[]> {
+  return this.http.get<Task[]>(this.apiUrl);
+  }
 
 ## Development server
 
@@ -98,6 +132,26 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Angular font awesome
 
 ng add @fortawesome/angular-fontawesome
+
+## Dummy server
+
+- npm i json-server
+- check package.json for entry
+- add a script in package.json "server": "json-server --watch db.json --port 5000"
+- Create a db.json file with some data in the root
+
+{
+"posts": [
+{ "id": 1, "title": "json-server", "author": "typicode" }
+],
+"comments": [
+{ "id": 1, "body": "some comment", "postId": 1 }
+],
+"profile": { "name": "typicode" }
+}
+
+- npm run server
+- http://localhost:5000/tasks
 
 ## Further help
 
