@@ -40,11 +40,18 @@ style.css has global styling
 
 ## Data binding
 
-One way and two way
+One way
 
 - String interpolation
 - Property Binding
 -
+
+Two way data binding
+
+- In the add task module, we wanted to add have two way binding with the form input values.
+- For this we need NgModel from FormsModule
+- Import it in AppModule
+- in the html, [()]="text" [] directive and () - for outputs from events
 
 ## @Input, @Output
 
@@ -108,6 +115,23 @@ Interfaces are great when you only need the type checking whereas classes are gr
   getTasks(): Observable<Task[]> {
   return this.http.get<Task[]>(this.apiUrl);
   }
+
+## Subscriptions from rxjs, Subjects and use cases
+
+## Angular Router
+
+app.module.ts:
+
+- import router moduler- import { RouterModule, Routes } from '@angular/router';
+- create constant const appRoutes
+- add to import : RouterModule.forRoot(appRoutes, {enableTracing: true})
+- <router-outlet></router-outlet> to app component html
+- adding link <a routerLink="/about">About</a>, <a routerLink="/">Go Back</a>
+
+const appRoutes: Routes = [
+{ path: '', component: TasksComponent }, ==> localhost:4200
+{ path: 'about', component: AboutComponent } ==> localhost:4200/about
+]
 
 ## Development server
 
